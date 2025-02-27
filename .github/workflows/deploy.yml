@@ -21,10 +21,6 @@ jobs:
         run: echo '${{ secrets.SSH_KEY }}' >> ~/.ssh/id_ed25519; chmod u=rw,go= ~/.ssh/id_ed25519
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Make secrets directory
-        run: mkdir secrets
-      - name: Configure secrets ALIYUN_OSS
-        run: echo '${{ secrets.ALIYUN_OSS }}' >> secrets/aliyun_oss; chmod u=rw,go= secrets/aliyun_oss
       - name: Configure service TOKEN
         run: sed -i 's%----TOKEN----%${{ secrets.TOKEN }}%g' tunnel.container
       - name: Configure service DASHBOARD_PWD
