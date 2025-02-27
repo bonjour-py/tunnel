@@ -1,0 +1,55 @@
+http:
+  services:
+    tunnel:
+      loadBalancer:
+        servers:
+          - url: http://host.containers.internal:30500
+  routers:
+    tunnel: 
+      entryPoints: https
+      rule: Host(`tunnel.bonjour.zone`)
+      service: tunnel
+tcp:
+  services:
+    tunnel-tcp:
+      loadBalancer:
+        servers:
+        - address: host.containers.internal:30510
+    {{range $i := until 10 }}
+    tunnel-proxy{{ $i }}-tcp:
+      loadBalancer:
+        servers:
+        - address: host.containers.internal:3052{{ $i }}
+    {{end}}
+  routers:
+    tunnel-tcp: 
+      entryPoints: tunnel-tcp
+      rule: HostSNI(`*`)
+      service: tunnel-tcp
+    {{range $i := until 10 }}
+    tunnel-proxy{{ $i }}-tcp:
+      entryPoints: tunnel-proxy{{ $i }}-tcp
+      rule: HostSNI(`*`)
+      service: tunnel-proxy{{ $i }}-tcp
+    {{end}}
+udp:
+  services:
+    tunnel-kcp:
+      loadBalancer:
+        servers:
+        - address: host.containers.internal:30510
+    {{range $i := until 10 }}
+    tunnel-proxy{{ $i }}-udp:
+      loadBalancer:
+        servers:
+        - address: host.containers.internal:3052{{ $i }}
+    {{end}}
+  routers:
+    tunnel-kcp: 
+      entryPoints: tunnel-kcp
+      service: tunnel-kcp
+    {{range $i := until 10 }}
+    tunnel-proxy{{ $i }}-udp:
+      entryPoints: tunnel-proxy{{ $i }}-udp
+      service: tunnel-proxy{{ $i }}-udp
+    {{end}}

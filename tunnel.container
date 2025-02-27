@@ -1,0 +1,25 @@
+[Unit]
+Description = Podman Container %N
+
+[Container]
+
+AutoUpdate = registry
+Image = ghcr.io/fatedier/frps:v0.61.0
+Exec = --kcp-bind-port 7000 \
+	--allow-ports 7020-7029 \
+	--token ----TOKEN---- \
+	--dashboard-port 80 \
+	--dashboard-user bonjour \
+	--dashboard-pwd ----DASHBOARD_PWD----
+
+PublishPort = 30500:80
+PublishPort = 30510:7000
+PublishPort = 30510:7000/udp
+PublishPort = 30520-30529:7020-7029
+PublishPort = 30520-30529:7020-7029/udp
+
+[Service]
+Restart = on-failure
+
+[Install]
+WantedBy = default.target
