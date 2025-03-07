@@ -6,7 +6,8 @@ http:
           - url: http://host.containers.internal:30500
   routers:
     tunnel: 
-      entryPoints: https
+      entryPoints: 
+        - https
       rule: Host(`tunnel.bonjour.zone`)
       service: tunnel
 tcp:
@@ -23,12 +24,14 @@ tcp:
     {{end}}
   routers:
     tunnel-tcp: 
-      entryPoints: tunnel-tcp
+      entryPoints: 
+        - tunnel-tcp
       rule: HostSNI(`*`)
       service: tunnel-tcp
     {{range $i := until 10 }}
     tunnel-proxy{{ $i }}-tcp:
-      entryPoints: tunnel-proxy{{ $i }}-tcp
+      entryPoints: 
+        - tunnel-proxy{{ $i }}-tcp
       rule: HostSNI(`*`)
       service: tunnel-proxy{{ $i }}-tcp
     {{end}}
@@ -46,10 +49,12 @@ udp:
     {{end}}
   routers:
     tunnel-kcp: 
-      entryPoints: tunnel-kcp
+      entryPoints: 
+        - tunnel-kcp
       service: tunnel-kcp
     {{range $i := until 10 }}
     tunnel-proxy{{ $i }}-udp:
-      entryPoints: tunnel-proxy{{ $i }}-udp
+      entryPoints: 
+        - tunnel-proxy{{ $i }}-udp
       service: tunnel-proxy{{ $i }}-udp
     {{end}}
