@@ -1,0 +1,12 @@
+[Container]
+Pod = tunnel.pod
+
+AutoUpdate = registry
+Image = ghcr.io/fatedier/frps:v0.61.2
+Exec = --config /config.yaml
+
+SecurityLabelDisable = true
+Volume = ./frps.yaml:/config.yaml:ro
+
+[Service]
+Restart = on-failure
