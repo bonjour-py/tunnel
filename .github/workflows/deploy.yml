@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - host: 1.bj.aliyun.bonjour.zone
+          - host: ecs.bj.aliyun.bonjour.zone
             pubkey: AAAAC3NzaC1lZDI1NTE5AAAAIFij2QuvS/uuJh9/8DhMLPl50eTeWixEGEb9oHwBKjba
     steps:
       - name: Make ssh directory
@@ -22,9 +22,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Configure service TOKEN
-        run: sed -i 's%----TOKEN----%${{ secrets.TOKEN }}%g' tunnel.container
+        run: sed -i 's%----TOKEN----%${{ secrets.TOKEN }}%g' config.yaml
       - name: Configure service DASHBOARD_PWD
-        run: sed -i 's%----DASHBOARD_PWD----%${{ secrets.DASHBOARD_PWD }}%g' tunnel.container
+        run: sed -i 's%----DASHBOARD_PWD----%${{ secrets.DASHBOARD_PWD }}%g' config.yaml
       - name: Configure service proxy
         run: mkdir proxy.container.d; mv proxy.conf proxy.container.d/tunnel.conf
       - name: Make service directory

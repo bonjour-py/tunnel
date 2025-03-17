@@ -37,7 +37,7 @@ tcp:
     {{end}}
 udp:
   services:
-    tunnel-kcp:
+    tunnel-quic:
       loadBalancer:
         servers:
         - address: host.containers.internal:30510
@@ -48,10 +48,10 @@ udp:
         - address: host.containers.internal:3052{{ $i }}
     {{end}}
   routers:
-    tunnel-kcp: 
+    tunnel-quic: 
       entryPoints: 
-        - tunnel-kcp
-      service: tunnel-kcp
+        - tunnel-quic
+      service: tunnel-quic
     {{range $i := until 10 }}
     tunnel-proxy{{ $i }}-udp:
       entryPoints: 

@@ -4,19 +4,17 @@ Description = Podman Container %N
 [Container]
 
 AutoUpdate = registry
-Image = ghcr.io/fatedier/frps:v0.61.0
-Exec = --kcp-bind-port 7000 \
-	--allow-ports 7020-7029 \
-	--token ----TOKEN---- \
-	--dashboard-port 80 \
-	--dashboard-user bonjour \
-	--dashboard-pwd ----DASHBOARD_PWD----
+Image = ghcr.io/fatedier/frps:v0.61.2
+Exec = --config /config.yaml
 
 PublishPort = 30500:80
 PublishPort = 30510:7000
 PublishPort = 30510:7000/udp
 PublishPort = 30520-30529:7020-7029
 PublishPort = 30520-30529:7020-7029/udp
+
+SecurityLabelDisable = true
+Volume = ./config.yaml:/config.yaml:ro
 
 [Service]
 Restart = on-failure

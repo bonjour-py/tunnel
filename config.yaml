@@ -1,0 +1,12 @@
+quicBindPort: 7000
+auth:
+  method: token
+  token: ----TOKEN----
+allowPorts:
+  - start: 7020
+    end: 7029
+webServer:
+  addr: 0.0.0.0
+  port: 80
+  user: bonjour
+  password: ----DASHBOARD_PWD----
